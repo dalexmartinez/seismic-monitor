@@ -7,9 +7,14 @@ interface Props {
 }
 
 export function EarthquakeList({ earthquakes }: Props) {
-  const { selectedId, setSelectedId } = useFilterStore()
+  const { selectedId, setSelectedId, setFlyTarget } = useFilterStore()
 
   const sorted = [...earthquakes].sort((a, b) => b.magnitude - a.magnitude)
+
+  function handleClick(eq: Earthquake) {
+    setSelectedId(eq.id === selectedId ? null : eq.id)
+    setFlyTarget({ longitude: eq.longitude, latitude: eq.latitude })
+  }
 
   return (
     <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
@@ -23,7 +28,7 @@ export function EarthquakeList({ earthquakes }: Props) {
           key={eq.id}
           earthquake={eq}
           isSelected={eq.id === selectedId}
-          onClick={(eq) => setSelectedId(eq.id === selectedId ? null : eq.id)}
+          onClick={handleClick}
         />
       ))}
     </div>

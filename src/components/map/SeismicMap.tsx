@@ -25,9 +25,20 @@ interface TooltipInfo {
 }
 
 export function SeismicMap({ earthquakes }: Props) {
-  const { selectedId, setSelectedId } = useFilterStore()
-  const [tooltip, setTooltip] = useState<TooltipInfo | null>(null)
-  const [viewState, setViewState] = useState(INITIAL_VIEW)
+
+    const [tooltip, setTooltip] = useState<TooltipInfo | null>(null)
+    const [viewState, setViewState] = useState(INITIAL_VIEW)
+    const { selectedId, setSelectedId, flyTarget } = useFilterStore()
+
+    useEffect(() => {
+    if (!flyTarget) return
+    setViewState(prev => ({
+        ...prev,
+        longitude: flyTarget.longitude,
+        latitude: flyTarget.latitude,
+        zoom: 2,
+    }))
+    }, [flyTarget])
 
     const handleHover = useCallback((earthquake: Earthquake | null, event?: any) => {
         if (earthquake && event?.srcEvent) {
@@ -53,24 +64,27 @@ export function SeismicMap({ earthquakes }: Props) {
     }, [])
 
     const layers = [
-    new SolidPolygonLayer({
-        id: 'globe-surface',
-        data: [{ polygon: [[-180, 90], [180, 90], [180, -90], [-180, -90], [-180, 90]] }],
-        getPolygon: (d: any) => d.polygon,
-        getFillColor: [13, 24, 46, 255],
-        stroked: false,
-    }),
-    new GeoJsonLayer({
-        id: 'countries',
-        data: worldData,
-        filled: true,
-        stroked: true,
-        getFillColor: [20, 35, 60, 255],
-        getLineColor: [80, 120, 180, 120],
-        lineWidthMinPixels: 0.5,
-        pickable: false,
-    }),
-    createEarthquakeLayer(earthquakes, selectedId, handleHover, handleClick)
+
+        new SolidPolygonLayer({
+            id: 'globe-surface',
+            data: [{ polygon: [[-180, 90], [180, 90], [180, -90], [-180, -90], [-180, 90]] }],
+            getPolygon: (d: any) => d.polygon,
+            getFillColor: [13, 24, 46, 255],
+            stroked: false,
+        }),
+
+        new GeoJsonLayer({
+            id: 'countries',
+            data: worldData,
+            filled: true,
+            stroked: true,
+            getFillColor: [20, 35, 60, 255],
+            getLineColor: [80, 120, 180, 120],
+            lineWidthMinPixels: 0.5,
+            pickable: false,
+        }),
+    
+        createEarthquakeLayer(earthquakes, selectedId, handleHover, handleClick)
     ]
 
   return (

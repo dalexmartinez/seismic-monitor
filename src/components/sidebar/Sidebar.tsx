@@ -1,5 +1,6 @@
 import { FilterPanel } from './FilterPanel'
 import { EarthquakeList } from './EarthquakeList'
+import { MagnitudeChart } from '@/components/charts/MagnitudeChart'
 import type { Earthquake } from '@/types/earthquake'
 
 interface Props {
@@ -18,6 +19,7 @@ export function Sidebar({ earthquakes }: Props) {
       flexShrink: 0,
     }}>
       <FilterPanel />
+      <MagnitudeChart earthquakes={earthquakes} />
       <EarthquakeList earthquakes={earthquakes} />
     </div>
   )
