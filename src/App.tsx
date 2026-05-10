@@ -1,4 +1,5 @@
 import { SeismicMap } from '@/components/map/SeismicMap'
+import { Sidebar } from '@/components/sidebar/Sidebar'
 import { useEarthquakes } from '@/hooks/useEarthquakes'
 
 export default function App() {
@@ -17,8 +18,9 @@ export default function App() {
   )
 
   return (
-    <div style={{ height: '100vh', background: '#0a0f1a' }}>
+    <div style={{ height: '100vh', display: 'flex', background: '#0a0f1a' }}>
       <SeismicMap earthquakes={earthquakes} />
+      <Sidebar earthquakes={earthquakes} />
     </div>
   )
 }
