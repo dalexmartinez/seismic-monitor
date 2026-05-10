@@ -1,15 +1,15 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import DeckGL from '@deck.gl/react'
 import { _GlobeView as GlobeView } from '@deck.gl/core'
 import type { Earthquake } from '@/types/earthquake'
 import { createEarthquakeLayer } from './EarthquakeLayer'
 import { useFilterStore } from '@/store/filterStore'
-import { SolidPolygonLayer } from '@deck.gl/layers'
+import { GeoJsonLayer, SolidPolygonLayer } from '@deck.gl/layers'
 
 const INITIAL_VIEW = {
-  longitude: 0,
-  latitude: 20,
-  zoom: 0.8,
+  longitude: -99.13,
+  latitude: 19.43,
+  zoom: 1.5,
   minZoom: 0.5,
   maxZoom: 8,
 }
@@ -29,31 +29,48 @@ export function SeismicMap({ earthquakes }: Props) {
   const [tooltip, setTooltip] = useState<TooltipInfo | null>(null)
   const [viewState, setViewState] = useState(INITIAL_VIEW)
 
-  const handleHover = useCallback((earthquake: Earthquake | null, event?: any) => {
-    if (earthquake && event?.srcEvent) {
-      setTooltip({
-        x: event.srcEvent.clientX,
-        y: event.srcEvent.clientY,
-        earthquake,
-      })
-    } else {
-      setTooltip(null)
-    }
-  }, [])
+    const handleHover = useCallback((earthquake: Earthquake | null, event?: any) => {
+        if (earthquake && event?.srcEvent) {
+        setTooltip({
+            x: event.srcEvent.clientX,
+            y: event.srcEvent.clientY,
+            earthquake,
+        })
+        } else {
+        setTooltip(null)
+        }
+    }, [])
 
-  const handleClick = useCallback((earthquake: Earthquake) => {
-    setSelectedId(earthquake.id === selectedId ? null : earthquake.id)
-  }, [selectedId, setSelectedId])
+    const handleClick = useCallback((earthquake: Earthquake) => {
+        setSelectedId(earthquake.id === selectedId ? null : earthquake.id)
+    }, [selectedId, setSelectedId])
+
+    const [worldData, setWorldData] = useState<any>(null)
+        useEffect(() => {
+        fetch('/world.geojson')
+            .then(r => r.json())
+            .then(setWorldData)
+    }, [])
 
     const layers = [
-        new SolidPolygonLayer({
-            id: 'globe-surface',
-            data: [{ polygon: [[-180, 90], [180, 90], [180, -90], [-180, -90], [-180, 90]] }],
-            getPolygon: (d: any) => d.polygon,
-            getFillColor: [13, 24, 46, 255],
-            stroked: false,
-        }),
-        createEarthquakeLayer(earthquakes, selectedId, handleHover, handleClick)
+    new SolidPolygonLayer({
+        id: 'globe-surface',
+        data: [{ polygon: [[-180, 90], [180, 90], [180, -90], [-180, -90], [-180, 90]] }],
+        getPolygon: (d: any) => d.polygon,
+        getFillColor: [13, 24, 46, 255],
+        stroked: false,
+    }),
+    new GeoJsonLayer({
+        id: 'countries',
+        data: worldData,
+        filled: true,
+        stroked: true,
+        getFillColor: [20, 35, 60, 255],
+        getLineColor: [80, 120, 180, 120],
+        lineWidthMinPixels: 0.5,
+        pickable: false,
+    }),
+    createEarthquakeLayer(earthquakes, selectedId, handleHover, handleClick)
     ]
 
   return (
