@@ -8,6 +8,8 @@ import { GeoJsonLayer, SolidPolygonLayer } from '@deck.gl/layers'
 import { FlyToInterpolator } from '@deck.gl/core'
 import { easeCubicInOut } from 'd3-ease'
 import { MapLegend } from './MapLegend'
+import { TimeTabs } from './TimeTabs'
+import { useQueryClient } from '@tanstack/react-query'
 
 const INITIAL_VIEW = {
   longitude: -99.13,
@@ -32,7 +34,12 @@ export function SeismicMap({ earthquakes }: Props) {
     const [tooltip, setTooltip] = useState<TooltipInfo | null>(null)
     const [viewState, setViewState] = useState(INITIAL_VIEW)
     const { selectedId, setSelectedId, flyTarget } = useFilterStore()
+    const queryClient = useQueryClient()
 
+    function handleReset() {
+    setViewState(INITIAL_VIEW)
+    queryClient.invalidateQueries({ queryKey: ['earthquakes'] })
+    }
     useEffect(() => {
     if (!flyTarget) return
         setViewState(prev => ({
@@ -110,29 +117,63 @@ export function SeismicMap({ earthquakes }: Props) {
         }}
     />
 
+    <TimeTabs />
+
+    <button
+        onClick={handleReset}
+        title="Resetear vista y actualizar datos"
+        style={{
+            position: 'absolute',
+            top: 12,
+            right: 12,
+            background: 'rgba(13,20,34,0.85)',
+            border: '0.5px solid rgba(255,255,255,0.08)',
+            borderRadius: 6,
+            padding: '5px 10px',
+            color: '#64748b',
+            fontSize: 11,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 5,
+            zIndex: 10,
+            backdropFilter: 'blur(4px)',
+            transition: 'color 0.15s',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.color = '#e2e8f0')}
+        onMouseLeave={e => (e.currentTarget.style.color = '#64748b')}
+        >
+        ↺ Reset
+    </button>
+
     <MapLegend />
 
     {tooltip && (
-    <div style={{
-        position: 'fixed',
-        left: tooltip.x + 12,
-        top: tooltip.y - 12,
-        background: '#0d1422',
-        border: '0.5px solid rgba(255,255,255,0.12)',
-        borderRadius: 6,
-        padding: '6px 10px',
-        pointerEvents: 'none',
-        zIndex: 100,
-    }}>
+
+        <div style={{
+            position: 'fixed',
+            left: tooltip.x + 12,
+            top: tooltip.y - 12,
+            background: '#0d1422',
+            border: '0.5px solid rgba(255,255,255,0.12)',
+            borderRadius: 6,
+            padding: '6px 10px',
+            pointerEvents: 'none',
+            zIndex: 100,
+        }}>
+
         <div style={{ color: '#e2e8f0', fontSize: 13, fontWeight: 500 }}>
         M {tooltip.earthquake.magnitude.toFixed(1)}
         </div>
+
         <div style={{ color: '#94a3b8', fontSize: 11, marginTop: 2 }}>
         {tooltip.earthquake.place}
         </div>
+
         <div style={{ color: '#475569', fontSize: 11, marginTop: 1 }}>
         {tooltip.earthquake.depth} km profundidad
         </div>
+        
     </div>
       )}
     </div>
