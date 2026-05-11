@@ -3,6 +3,7 @@ import { SeismicMap } from '@/components/map/SeismicMap'
 import { Sidebar } from '@/components/sidebar/Sidebar'
 import { Topbar } from '@/components/ui/Topbar'
 import { useEarthquakes } from '@/hooks/useEarthquakes'
+import { Statusbar } from '@/components/ui/Statusbar'
 
 export default function App() {
   const { data: earthquakes = [], isLoading, isError } = useEarthquakes()
@@ -26,6 +27,7 @@ export default function App() {
         <SeismicMap earthquakes={earthquakes} />
         <Sidebar earthquakes={earthquakes} />
       </div>
+      <Statusbar />
     </div>
   )
 }
