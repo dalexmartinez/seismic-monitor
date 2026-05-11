@@ -5,11 +5,13 @@ import type { Earthquake } from '@/types/earthquake'
 import { createEarthquakeLayer } from './EarthquakeLayer'
 import { useFilterStore } from '@/store/filterStore'
 import { GeoJsonLayer, SolidPolygonLayer } from '@deck.gl/layers'
+import { FlyToInterpolator } from '@deck.gl/core'
+import { easeCubicInOut } from 'd3-ease'
 
 const INITIAL_VIEW = {
   longitude: -99.13,
   latitude: 19.43,
-  zoom: 1.5,
+  zoom: 2,
   minZoom: 0.5,
   maxZoom: 8,
 }
@@ -32,12 +34,15 @@ export function SeismicMap({ earthquakes }: Props) {
 
     useEffect(() => {
     if (!flyTarget) return
-    setViewState(prev => ({
-        ...prev,
-        longitude: flyTarget.longitude,
-        latitude: flyTarget.latitude,
-        zoom: 2,
-    }))
+        setViewState(prev => ({
+            ...prev,
+            longitude: flyTarget.longitude,
+            latitude: flyTarget.latitude,
+            zoom: 3,
+            transitionDuration: 2500,
+            transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
+            transitionEasing: easeCubicInOut,
+        }))
     }, [flyTarget])
 
     const handleHover = useCallback((earthquake: Earthquake | null, event?: any) => {
@@ -95,7 +100,7 @@ export function SeismicMap({ earthquakes }: Props) {
         viewState={viewState}
         onViewStateChange={({ viewState: vs }) => {
             const { transitionDuration, transitionInterpolator, ...rest } = vs as any
-            setViewState(rest)
+            setViewState((prev) => ({ ...prev, ...rest }))
         }}
         layers={layers}
         controller={true}
