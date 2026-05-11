@@ -1,5 +1,7 @@
 # Seismic Monitor
 
+[Live Demo](https://seismic-monitor-mauve.vercel.app) · [USGS Data](https://earthquake.usgs.gov)
+
 Real-time global earthquake activity monitor built with React, TypeScript and Deck.gl.
 
 ![Seismic Monitor](public/screenshot.png)
