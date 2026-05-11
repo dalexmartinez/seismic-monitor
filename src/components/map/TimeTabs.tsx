@@ -2,9 +2,9 @@ import { useFilterStore } from '@/store/filterStore'
 import type { TimeRange } from '@/types/earthquake'
 
 const options: { label: string; value: TimeRange }[] = [
-  { label: '24h',    value: '1day' },
-  { label: '7 días', value: '7days' },
-  { label: '30 días', value: '30days' },
+  { label: '24h',     value: '1day' },
+  { label: '7 days',  value: '7days' },
+  { label: '30 days', value: '30days' },
 ]
 
 export function TimeTabs() {
@@ -17,9 +17,9 @@ export function TimeTabs() {
       left: '50%',
       transform: 'translateX(-50%)',
       display: 'flex',
-      background: 'rgba(13,20,34,0.85)',
-      border: '0.5px solid rgba(255,255,255,0.08)',
-      borderRadius: 6,
+      background: 'var(--overlay-dark)',
+      border: '0.5px solid var(--border-soft)',
+      borderRadius: 'var(--radius-md)',
       padding: 2,
       gap: 2,
       zIndex: 10,
@@ -30,14 +30,14 @@ export function TimeTabs() {
           key={o.value}
           onClick={() => setTimeRange(o.value)}
           style={{
-            fontSize: 11,
+            fontSize: 'var(--text-base)',
             padding: '4px 12px',
-            borderRadius: 4,
+            borderRadius: 'var(--radius-sm)',
             border: 'none',
             cursor: 'pointer',
             transition: 'all 0.15s',
-            background: timeRange === o.value ? 'rgba(59,130,246,0.2)' : 'transparent',
-            color: timeRange === o.value ? '#93c5fd' : '#64748b',
+            background: timeRange === o.value ? 'var(--accent-blue-soft)' : 'transparent',
+            color: timeRange === o.value ? 'var(--accent-blue-text)' : 'var(--text-muted)',
           }}
         >
           {o.label}

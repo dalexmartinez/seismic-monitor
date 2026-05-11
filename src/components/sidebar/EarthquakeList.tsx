@@ -17,10 +17,24 @@ export function EarthquakeList({ earthquakes }: Props) {
   }
 
   return (
-    <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
-      <div style={{ padding: '8px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: 10, color: '#64748b', letterSpacing: '0.08em' }}>
-          SISMOS · {earthquakes.length}
+    <div style={{
+      flex: 1,
+      overflowY: 'auto',
+      scrollbarWidth: 'thin',
+      scrollbarColor: 'var(--scrollbar-color) transparent',
+    }}>
+      <div style={{
+        padding: '8px 14px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}>
+        <span style={{
+          fontSize: 'var(--text-sm)',
+          color: 'var(--text-muted)',
+          letterSpacing: 'var(--tracking-wider)',
+        }}>
+          EARTHQUAKES · {earthquakes.length}
         </span>
       </div>
       {sorted.map(eq => (

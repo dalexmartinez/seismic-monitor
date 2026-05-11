@@ -10,9 +10,9 @@ interface Props {
 export function Sidebar({ earthquakes }: Props) {
   return (
     <div style={{
-      width: 260,
-      background: '#0d1422',
-      borderLeft: '0.5px solid rgba(255,255,255,0.07)',
+      width: 'var(--sidebar-width)',
+      background: 'var(--bg-surface)',
+      borderLeft: '0.5px solid var(--border-soft)',
       display: 'flex',
       flexDirection: 'column',
       height: '100%',

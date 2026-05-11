@@ -1,9 +1,15 @@
 import { scaleLinear } from 'd3-scale'
 import { interpolateRgb } from 'd3-interpolate'
 
+// Depth color scale — synchronized with CSS variables in index.css
+// --depth-shallow: #22d3ee / --depth-mid: #fbbf24 / --depth-deep: #ef4444
+const DEPTH_SHALLOW = '#22d3ee'
+const DEPTH_MID     = '#fbbf24'
+const DEPTH_DEEP    = '#ef4444'
+
 const depthColor = scaleLinear<string>()
   .domain([0, 70, 300, 700])
-  .range(['#22d3ee', '#22d3ee', '#fbbf24', '#ef4444'])
+  .range([DEPTH_SHALLOW, DEPTH_SHALLOW, DEPTH_MID, DEPTH_DEEP])
   .interpolate(interpolateRgb)
 
 const magRadius = scaleLinear()

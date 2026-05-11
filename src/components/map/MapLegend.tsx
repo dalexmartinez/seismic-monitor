@@ -4,17 +4,22 @@ export function MapLegend() {
       position: 'absolute',
       bottom: 16,
       left: 16,
-      background: 'rgba(13,20,34,0.85)',
-      border: '0.5px solid rgba(255,255,255,0.08)',
-      borderRadius: 8,
+      background: 'var(--overlay-dark)',
+      border: '0.5px solid var(--border-soft)',
+      borderRadius: 'var(--radius-lg)',
       padding: '10px 12px',
       zIndex: 10,
       backdropFilter: 'blur(4px)',
     }}>
 
-      {/* Magnitud */}
-      <div style={{ fontSize: 10, color: '#64748b', letterSpacing: '0.08em', marginBottom: 8 }}>
-        MAGNITUD
+      {/* Magnitude */}
+      <div style={{
+        fontSize: 'var(--text-sm)',
+        color: 'var(--text-muted)',
+        letterSpacing: 'var(--tracking-wider)',
+        marginBottom: 8,
+      }}>
+        MAGNITUDE
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginBottom: 12 }}>
         {[
@@ -26,29 +31,34 @@ export function MapLegend() {
             <div style={{
               width: size, height: size,
               borderRadius: '50%',
-              background: '#94a3b8',
+              background: 'var(--legend-dot-color)',
               flexShrink: 0,
               marginLeft: (13 - size) / 2,
             }} />
-            <span style={{ fontSize: 11, color: '#94a3b8' }}>{label}</span>
+            <span style={{ fontSize: 'var(--text-base)', color: 'var(--text-secondary)' }}>{label}</span>
           </div>
         ))}
       </div>
 
-      {/* Profundidad */}
-      <div style={{ fontSize: 10, color: '#64748b', letterSpacing: '0.08em', marginBottom: 6 }}>
-        PROFUNDIDAD
+      {/* Depth */}
+      <div style={{
+        fontSize: 'var(--text-sm)',
+        color: 'var(--text-muted)',
+        letterSpacing: 'var(--tracking-wider)',
+        marginBottom: 6,
+      }}>
+        DEPTH
       </div>
       <div style={{
         width: 120, height: 6,
         borderRadius: 3,
-        background: 'linear-gradient(to right, #22d3ee, #fbbf24, #ef4444)',
+        background: 'var(--depth-gradient)',
         marginBottom: 4,
       }} />
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: 9, color: '#64748b' }}>0 km</span>
-        <span style={{ fontSize: 9, color: '#64748b' }}>300 km</span>
-        <span style={{ fontSize: 9, color: '#64748b' }}>700+ km</span>
+        <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>0 km</span>
+        <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>300 km</span>
+        <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>700+ km</span>
       </div>
 
     </div>

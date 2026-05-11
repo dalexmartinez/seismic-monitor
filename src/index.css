@@ -1,120 +1,115 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body, #root { height: 100%; width: 100%; }
-body { font-family: system-ui, sans-serif; background: #0a0f1a; }
-
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
 body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-normal);
+  background: var(--bg-base);
+  user-select: none;
 }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.4; }
+}
+
+:root {
+
+  /* ── Typography ─────────────────────────────────── */
+  --font-sans:        system-ui, -apple-system, sans-serif; /* Default UI font */
+  --font-mono:        'JetBrains Mono', 'Fira Code', monospace; /* Code and data */
+
+  /* ── Font sizes ─────────────────────────────────── */
+  --text-xs:          9px;  /* Axis labels, depth scale labels */
+  --text-sm:          10px; /* Badges, section titles, metadata */
+  --text-base:        11px; /* List items, descriptions */
+  --text-md:          13px; /* Topbar, tooltips */
+  --text-lg:          16px; /* Magnitude numbers in cards */
+
+  /* ── Font weights ───────────────────────────────── */
+  --weight-normal:    400;
+  --weight-medium:    500;
+
+  /* ── Letter spacing ─────────────────────────────── */
+  --tracking-wide:    0.05em; /* Logo text */
+  --tracking-wider:   0.08em; /* Section labels like FILTERS, LEGEND */
+
+  /* ── Backgrounds ────────────────────────────────── */
+  --bg-base:          #0a0f1a; /* Darkest — main app background */
+  --bg-surface:       #0d1422; /* Topbar, sidebar, overlays */
+  --bg-deep:          #070d18; /* Statusbar — deepest layer */
+  --bg-elevated:      #111827; /* Cards and elevated elements */
+
+  /* ── Text ───────────────────────────────────────── */
+  --text-primary:     #e2e8f0; /* Main readable text */
+  --text-secondary:   #94a3b8; /* Supporting text, descriptions */
+  --text-muted:       #64748b; /* Labels, section titles */
+  --text-subtle:      #475569; /* Timestamps, metadata */
+
+  /* ── Accent ─────────────────────────────────────── */
+  --accent-blue:      #3b82f6; /* Primary interactive color */
+  --accent-blue-soft: rgba(59,130,246,0.2);  /* Active pill background */
+  --accent-blue-dim:  rgba(59,130,246,0.08); /* Selected card background */
+  --accent-blue-text:   #93c5fd;  /* Active pill and selected element text */
+
+  /* ── Depth color scale ──────────────────────────── */
+  --depth-shallow:    #22d3ee; /* 0–70 km — surface earthquakes */
+  --depth-mid:        #fbbf24; /* 70–300 km — intermediate depth */
+  --depth-deep:       #ef4444; /* 300–700+ km — deep earthquakes */
+
+  /* ── Magnitude colors ───────────────────────────── */
+  --mag-high:         #f87171; /* M 5.5+ — high magnitude */
+  --mag-mid:          #fbbf24; /* M 4.0–5.5 — medium magnitude */
+  --mag-low:          #34d399; /* M < 4.0 — low magnitude */
+
+  /* ── Borders ────────────────────────────────────── */
+  --border-soft:      rgba(255,255,255,0.07); /* Default subtle border */
+  --border-subtle:    rgba(255,255,255,0.04); /* List item dividers */
+  --border-accent:    rgba(59,130,246,0.4);   /* Active/selected border */
+
+  /* ── Status indicators ──────────────────────────── */
+  --status-ok:        #22c55e; /* API connected */
+  --status-warning:   #fbbf24; /* Fetching / updating */
+  --status-error:     #ef4444; /* Connection error */
+
+  /* ── Overlays ───────────────────────────────────── */
+  --overlay-dark:     rgba(13,20,34,0.85); /* Map overlays background */
+
+  /* ── Layout ─────────────────────────────────────── */
+  --sidebar-width:    260px;
+  --topbar-height:    44px;
+  --statusbar-height: 24px;
+  --radius-sm:        4px;
+  --radius-md:        6px;
+  --radius-lg:        8px;
+
+  /* ── Badge backgrounds ───────────────────────────── */
+  --badge-depth-bg:     rgba(34,211,238,0.1);   /* Shallow depth badge fill */
+  --badge-depth-border: rgba(34,211,238,0.2);   /* Shallow depth badge border */
+  --badge-live-bg:      rgba(239,68,68,0.15);   /* Live indicator fill */
+  --badge-live-border:  rgba(239,68,68,0.3);    /* Live indicator border */
+  --badge-default-bg:   rgba(255,255,255,0.06); /* Default badge fill */
+  --badge-depth-color:  #67e8f9;  /* Shallow depth badge text */
+
+  /* ── Earthquake color cards ───────────────────────── */
+  --card-selected-border: #3b82f6;        /* Selected earthquake card left border */
+  --card-selected-bg:     rgba(59,130,246,0.08); /* Selected earthquake card background */
+
+  /* ── Earthquake list ──────────────────────────────── */
+  --scrollbar-color:  rgba(255,255,255,0.1); /* List scrollbar thumb */
+
+ /* ── Magnitude chart list ──────────────────────────── */
+  --chart-bar-fill:     rgba(59,130,246,0.5);  /* Bar chart fill color */
+  --chart-cursor-fill:  rgba(255,255,255,0.04); /* Bar chart hover cursor */
+  --chart-border:       rgba(255,255,255,0.12); /* Tooltip border */
+
+ /* ── Map legend ─────────────────────────────────────── */
+  --legend-dot-color:   #94a3b8;  /* Magnitude scale dots in legend */
+  --depth-gradient:     linear-gradient(to right, #22d3ee, #fbbf24, #ef4444); /* Depth color scale bar */
+
+ /* ── Seismic Map ────────────────────────────────────── */
+  --tooltip-border:     rgba(255,255,255,0.12); /* Tooltip border color */
+  --globe-ocean:        #0d182e;                /* Ocean/globe base fill — also used in SolidPolygonLayer */
+  --reset-color:        #64748b;                /* Reset button default text */
+
 }
