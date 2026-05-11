@@ -53,7 +53,7 @@ body {
   --accent-blue-text:   #93c5fd;  /* Active pill and selected element text */
 
   /* ── Depth color scale ──────────────────────────── */
-  --depth-shallow:    #22d3ee; /* 0–70 km — surface earthquakes */
+  --depth-shallow:    #a3e635; /* 0–70 km — surface earthquakes */
   --depth-mid:        #fbbf24; /* 70–300 km — intermediate depth */
   --depth-deep:       #ef4444; /* 300–700+ km — deep earthquakes */
 
@@ -105,7 +105,7 @@ body {
 
  /* ── Map legend ─────────────────────────────────────── */
   --legend-dot-color:   #94a3b8;  /* Magnitude scale dots in legend */
-  --depth-gradient:     linear-gradient(to right, #22d3ee, #fbbf24, #ef4444); /* Depth color scale bar */
+  --depth-gradient: linear-gradient(to right, #a3e635, #fbbf24, #ef4444); /* Magnitude color scale bar */
 
  /* ── Seismic Map ────────────────────────────────────── */
   --tooltip-border:     rgba(255,255,255,0.12); /* Tooltip border color */

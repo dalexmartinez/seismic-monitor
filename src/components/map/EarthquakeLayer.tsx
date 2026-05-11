@@ -1,6 +1,6 @@
 import { ScatterplotLayer } from '@deck.gl/layers'
 import type { Earthquake } from '@/types/earthquake'
-import { getDepthColor, getMagRadius } from '@/utils/colorScale'
+import { getMagColor, getDepthRadius } from '@/utils/colorScale'
 
 // Selected point color — white highlight
 // Point stroke — synchronized with --border-soft in index.css
@@ -17,20 +17,22 @@ export function createEarthquakeLayer(
     id: 'earthquakes',
     data: earthquakes,
     getPosition: (d) => [d.longitude, d.latitude],
-    getRadius:   (d) => getMagRadius(d.magnitude),
+    ggetRadius: (d) => getDepthRadius(d.depth),
     getFillColor: (d) => {
-      const base = getDepthColor(d.depth)
+      const base = getMagColor(d.magnitude)
       return d.id === selectedId ? SELECTED_COLOR : base
     },
+    
     radiusUnits: 'pixels',
+    radiusMinPixels: 5,
+    radiusMaxPixels: 100,
     pickable: true,
-    stroked: true,
-    getLineColor: STROKE_COLOR,
-    lineWidthMinPixels: 0.5,
+    stroked: false,
     onHover: (info) => onHover(info.object ?? null, info),
     onClick: (info) => { if (info.object) onClick(info.object) },
     updateTriggers: {
       getFillColor: [selectedId],
+      getRadius: earthquakes,
     },
   })
 }

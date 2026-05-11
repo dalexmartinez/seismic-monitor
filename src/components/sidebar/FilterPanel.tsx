@@ -11,7 +11,7 @@ const magOptions: { label: string; value: MagnitudeFilter }[] = [
   { label: 'All',   value: 'all' },
   { label: 'M 2.5+', value: '2.5+' },
   { label: 'M 4.5+', value: '4.5+' },
-  { label: 'Sig.',  value: 'significant' },
+  { label: 'Notable', value: 'significant' },
 ]
 
 const pillStyle = (active: boolean): React.CSSProperties => ({
@@ -52,7 +52,7 @@ export function FilterPanel() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: 'var(--text-base)', color: 'var(--text-secondary)' }}>Magnitude</span>
+          <span style={{ fontSize: 'var(--text-base)', color: 'var(--text-secondary)' }}>Mag.</span>
           <div style={{ display: 'flex', gap: 4 }}>
             {magOptions.map(o => (
               <button key={o.value} style={pillStyle(magnitude === o.value)} onClick={() => setMagnitude(o.value)}>

@@ -1,33 +1,42 @@
 import { scaleLinear } from 'd3-scale'
 import { interpolateRgb } from 'd3-interpolate'
 
-// Depth color scale — synchronized with CSS variables in index.css
-// --depth-shallow: #22d3ee / --depth-mid: #fbbf24 / --depth-deep: #ef4444
-const DEPTH_SHALLOW = '#22d3ee'
-const DEPTH_MID     = '#fbbf24'
-const DEPTH_DEEP    = '#ef4444'
+// Magnitude color scale — synchronized with CSS variables in index.css
+// --mag-low: #a3e635 / --mag-mid: #fbbf24 / --mag-high: #ef4444
+const MAG_LOW  = '#a3e635'  // M < 4.0 — low magnitude
+const MAG_MID  = '#fbbf24'  // M 4.0–5.5 — medium magnitude
+const MAG_HIGH = '#ef4444'  // M 5.5+ — high magnitude
 
-const depthColor = scaleLinear<string>()
+// Depth radius scale — shallow = bigger, deep = smaller
+// Inverted: more dangerous shallow earthquakes appear larger
+const depthRadius = scaleLinear()
   .domain([0, 70, 300, 700])
-  .range([DEPTH_SHALLOW, DEPTH_SHALLOW, DEPTH_MID, DEPTH_DEEP])
+  .range([50, 35, 20, 10])
+  .clamp(true)
+ 
+const magColor = scaleLinear<string>()
+  .domain([2.5, 4.0, 5.5, 9])
+  .range([MAG_LOW, MAG_LOW, MAG_MID, MAG_HIGH])
   .interpolate(interpolateRgb)
 
-const magRadius = scaleLinear()
-  .domain([2.5, 5, 7, 9])
-  .range([4, 10, 22, 40])
-  .clamp(true)
-
-function hexToRgb(hex: string): [number, number, number, number] {
-  const r = parseInt(hex.slice(1, 3), 16)
-  const g = parseInt(hex.slice(3, 5), 16)
-  const b = parseInt(hex.slice(5, 7), 16)
-  return [r, g, b, 200]
+function parseColor(color: string): [number, number, number, number] {
+  const rgbMatch = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/)
+  if (rgbMatch) {
+    return [parseInt(rgbMatch[1]), parseInt(rgbMatch[2]), parseInt(rgbMatch[3]), 255]
+  }
+  const hex = color.replace('#', '')
+  return [
+    parseInt(hex.slice(0, 2), 16),
+    parseInt(hex.slice(2, 4), 16),
+    parseInt(hex.slice(4, 6), 16),
+    255
+  ]
 }
 
-export function getDepthColor(depth: number): [number, number, number, number] {
-  return hexToRgb(depthColor(depth))
+export function getMagColor(magnitude: number): [number, number, number, number] {
+  return parseColor(magColor(magnitude))
 }
 
-export function getMagRadius(magnitude: number): number {
-  return magRadius(magnitude)
+export function getDepthRadius(depth: number): number {
+  return depthRadius(depth)
 }

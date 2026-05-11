@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react'
 import { useFilterStore } from '@/store/filterStore'
 import { EarthquakeCard } from './EarthquakeCard'
 import type { Earthquake } from '@/types/earthquake'
@@ -8,6 +9,7 @@ interface Props {
 
 export function EarthquakeList({ earthquakes }: Props) {
   const { selectedId, setSelectedId, setFlyTarget } = useFilterStore()
+  const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map())
 
   const sorted = [...earthquakes].sort((a, b) => b.magnitude - a.magnitude)
 
@@ -15,6 +17,12 @@ export function EarthquakeList({ earthquakes }: Props) {
     setSelectedId(eq.id === selectedId ? null : eq.id)
     setFlyTarget({ longitude: eq.longitude, latitude: eq.latitude })
   }
+
+  useEffect(() => {
+    if (!selectedId) return
+    const el = cardRefs.current.get(selectedId)
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }, [selectedId])
 
   return (
     <div style={{
@@ -38,12 +46,19 @@ export function EarthquakeList({ earthquakes }: Props) {
         </span>
       </div>
       {sorted.map(eq => (
-        <EarthquakeCard
+        <div
           key={eq.id}
-          earthquake={eq}
-          isSelected={eq.id === selectedId}
-          onClick={handleClick}
-        />
+          ref={el => {
+            if (el) cardRefs.current.set(eq.id, el)
+            else cardRefs.current.delete(eq.id)
+          }}
+        >
+          <EarthquakeCard
+            earthquake={eq}
+            isSelected={eq.id === selectedId}
+            onClick={handleClick}
+          />
+        </div>
       ))}
     </div>
   )
