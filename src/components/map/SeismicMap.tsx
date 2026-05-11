@@ -7,6 +7,7 @@ import { useFilterStore } from '@/store/filterStore'
 import { GeoJsonLayer, SolidPolygonLayer } from '@deck.gl/layers'
 import { FlyToInterpolator } from '@deck.gl/core'
 import { easeCubicInOut } from 'd3-ease'
+import { MapLegend } from './MapLegend'
 
 const INITIAL_VIEW = {
   longitude: -99.13,
@@ -109,28 +110,30 @@ export function SeismicMap({ earthquakes }: Props) {
         }}
     />
 
-      {tooltip && (
-        <div style={{
-          position: 'fixed',
-          left: tooltip.x + 12,
-          top: tooltip.y - 12,
-          background: '#0d1422',
-          border: '0.5px solid rgba(255,255,255,0.12)',
-          borderRadius: 6,
-          padding: '6px 10px',
-          pointerEvents: 'none',
-          zIndex: 100,
-        }}>
-          <div style={{ color: '#e2e8f0', fontSize: 13, fontWeight: 500 }}>
-            M {tooltip.earthquake.magnitude.toFixed(1)}
-          </div>
-          <div style={{ color: '#94a3b8', fontSize: 11, marginTop: 2 }}>
-            {tooltip.earthquake.place}
-          </div>
-          <div style={{ color: '#475569', fontSize: 11, marginTop: 1 }}>
-            {tooltip.earthquake.depth} km profundidad
-          </div>
+    <MapLegend />
+
+    {tooltip && (
+    <div style={{
+        position: 'fixed',
+        left: tooltip.x + 12,
+        top: tooltip.y - 12,
+        background: '#0d1422',
+        border: '0.5px solid rgba(255,255,255,0.12)',
+        borderRadius: 6,
+        padding: '6px 10px',
+        pointerEvents: 'none',
+        zIndex: 100,
+    }}>
+        <div style={{ color: '#e2e8f0', fontSize: 13, fontWeight: 500 }}>
+        M {tooltip.earthquake.magnitude.toFixed(1)}
         </div>
+        <div style={{ color: '#94a3b8', fontSize: 11, marginTop: 2 }}>
+        {tooltip.earthquake.place}
+        </div>
+        <div style={{ color: '#475569', fontSize: 11, marginTop: 1 }}>
+        {tooltip.earthquake.depth} km profundidad
+        </div>
+    </div>
       )}
     </div>
   )
