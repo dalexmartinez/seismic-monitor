@@ -1,73 +1,61 @@
-# React + TypeScript + Vite
+# Seismic Monitor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Real-time global earthquake activity monitor built with React, TypeScript and Deck.gl.
 
-Currently, two official plugins are available:
+![Seismic Monitor](public/screenshot.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- 3D interactive globe with real-time earthquake data
+- Points scaled by magnitude, colored by depth
+- Automatic polling every 60 seconds
+- Fly-to animation when selecting an earthquake
+- Filter by time range and minimum magnitude
+- Hourly frequency chart for the last 12 hours
+- Live API status indicator
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **React 18** + **TypeScript** — UI and type safety
+- **Deck.gl** — WebGL 3D globe rendering
+- **React Query** — server state, caching and polling
+- **Zustand** — client state management
+- **Recharts** — data visualization
+- **D3** — color and radius scales
+- **Vite** — build tool
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Data Source
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+[USGS Earthquake Hazards Program](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/) — public API, no key required.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── api/          # USGS fetch and data transformation
+├── components/
+│   ├── map/      # Deck.gl globe, layers, legend, tabs
+│   ├── sidebar/  # Filters, earthquake list, chart
+│   └── ui/       # Topbar, statusbar, badge
+├── hooks/        # useEarthquakes — React Query wrapper
+├── store/        # Zustand filter store
+├── types/        # TypeScript interfaces
+└── utils/        # Color scale, formatters
+```
+
+## Author
+
+dAlex Martínez
