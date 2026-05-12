@@ -58,6 +58,45 @@ src/
 └── utils/        # Color scale, formatters
 ```
 
-## Author
+## Testing
 
+This project includes a unit and component test suite built with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com).
+
+### Stack
+- **Vitest** — test runner native to Vite
+- **Testing Library** — component rendering and user interaction
+- **jsdom** — browser environment simulation
+
+### Coverage
+
+| File | Statements | Branches | Functions | Lines |
+|---|---|---|---|---|
+| `filterStore.ts` | 100% | 100% | 100% | 100% |
+| `FilterPanel.tsx` | 100% | 100% | 100% | 100% |
+| `EarthquakeCard.tsx` | 100% | 100% | 100% | 100% |
+| `Badge.tsx` | 100% | 100% | 100% | 100% |
+| `formatters.ts` | 100% | 100% | 100% | 100% |
+| `colorScale.ts` | 83% | 50% | 100% | 83% |
+| **Total** | **96%** | **95.65%** | **100%** | **95.12%** |
+
+### What is tested
+
+- **Unit tests** — pure functions in `formatters.ts` and `colorScale.ts`
+- **Store tests** — initial state and all setters in `filterStore.ts`
+- **Component tests** — rendering, styles and user interactions in `Badge`, `EarthquakeCard` and `FilterPanel`
+
+### Run tests
+
+```bash
+# Watch mode
+npm run test
+
+# Visual UI
+npm run test:ui
+
+# Coverage report
+npm run test:coverage
+```
+
+## Author
 dAlex Martínez
